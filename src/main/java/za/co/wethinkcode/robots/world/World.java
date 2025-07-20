@@ -113,22 +113,25 @@ public class World {
     public boolean isNewPositionAllowed(Position newPosition) {
         for (Robot robot : robots) {
             if (robot.getName().equals(currentRobot.getName())) continue;
-            if (robot.getPosition().equals(newPosition)) return false;
+
+            boolean robotDoesNotBlock = true;
+            if (robot.getPosition().equals(newPosition)) robotDoesNotBlock= false;
 
             if (robot.getPosition().getY() == currentRobot.getPosition().getY()) {
                 if (currentRobot.getPosition().getX() > robot.getPosition().getX()) {
                     if (currentRobot.getCurrentDirection() == WEST)
-                        return newPosition.getX() > robot.getPosition().getX();
+                        robotDoesNotBlock= newPosition.getX() > robot.getPosition().getX();
                 }
                 else if (currentRobot.getCurrentDirection() == EAST)
-                    return newPosition.getX() < robot.getPosition().getX();
+                    robotDoesNotBlock= newPosition.getX() < robot.getPosition().getX();
             } else if (robot.getPosition().getX() == currentRobot.getPosition().getX()) {
                 if (currentRobot.getPosition().getY() > robot.getPosition().getY()) {
                     if (currentRobot.getCurrentDirection() == SOUTH)
-                        return newPosition.getY() > robot.getPosition().getY();
+                        robotDoesNotBlock= newPosition.getY() > robot.getPosition().getY();
                 } else if (currentRobot.getCurrentDirection() == NORTH)
-                    return newPosition.getY() < robot.getPosition().getY();
+                    robotDoesNotBlock= newPosition.getY() < robot.getPosition().getY();
             }
+            if(robotDoesNotBlock==false) return false;
         }
 
         for (Obstacle obstacle : obstacleList) {
