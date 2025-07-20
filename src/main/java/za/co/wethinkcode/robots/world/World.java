@@ -126,10 +126,15 @@ public class World {
                     robotDoesNotBlock= newPosition.getX() < robot.getPosition().getX();
             } else if (robot.getPosition().getX() == currentRobot.getPosition().getX()) {
                 if (currentRobot.getPosition().getY() > robot.getPosition().getY()) {
-                    if (currentRobot.getCurrentDirection() == SOUTH)
+                    if (currentRobot.getCurrentDirection() == NORTH)
                         robotDoesNotBlock= newPosition.getY() > robot.getPosition().getY();
-                } else if (currentRobot.getCurrentDirection() == NORTH)
-                    robotDoesNotBlock= newPosition.getY() < robot.getPosition().getY();
+                } else {
+                    if (currentRobot.getCurrentDirection() == NORTH)
+                        robotDoesNotBlock = newPosition.getY() < robot.getPosition().getY();
+                    else {
+                        robotDoesNotBlock = newPosition.getY() < robot.getPosition().getY();
+                    }
+                }
             }
             if(robotDoesNotBlock==false) return false;
         }

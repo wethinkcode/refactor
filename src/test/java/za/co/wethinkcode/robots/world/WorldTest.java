@@ -129,12 +129,71 @@ class WorldTest {
     }
 
     @Test
-    void testIsNewPositionAllowed_ObstructedByRobot() {
+    void testIsNewPositionAllowed_ObstructedToSouth() {
+        setRobotDirection(robot,SOUTH);
         Robot anotherBot = new Robot("AnotherBot", "sniper");
-        anotherBot.setPosition(new Position(10, 10));
+        anotherBot.setPosition(new Position(0, 1));
         world.addRobot(anotherBot);
 
-        Position newPosition = new Position(10, 10);
+        Position newPosition = new Position(0, 2);
+        assertFalse(world.isNewPositionAllowed(newPosition));
+    }
+
+    @Test
+    void testIsNewPositionAllowed_ObstructedToNorth() {
+        robot.setPosition(new Position(0,5));
+        setRobotDirection(robot,NORTH);
+
+        Robot anotherBot = new Robot("AnotherBot", "sniper");
+        anotherBot.setPosition(new Position(0, 4));
+        world.addRobot(anotherBot);
+
+        Position newPosition = new Position(0, 3);
+        assertFalse(world.isNewPositionAllowed(newPosition));
+    }
+
+    @Test
+    void testIsNewPositionAllowed_ObstructedToEast() {
+        robot.setPosition(new Position(5,0));
+        setRobotDirection(robot,EAST);
+
+        Robot anotherBot = new Robot("AnotherBot", "sniper");
+        anotherBot.setPosition(new Position(6, 0));
+        world.addRobot(anotherBot);
+
+        Position newPosition = new Position(7, 0);
+        assertFalse(world.isNewPositionAllowed(newPosition));
+    }
+
+    @Test
+    void testIsNewPositionAllowed_ObstructedToWest() {
+        robot.setPosition(new Position(5,0));
+        setRobotDirection(robot,WEST);
+
+        Robot anotherBot = new Robot("AnotherBot", "sniper");
+        anotherBot.setPosition(new Position(4, 0));
+        world.addRobot(anotherBot);
+
+        Position newPosition = new Position(3, 0);
+        assertFalse(world.isNewPositionAllowed(newPosition));
+    }
+
+
+    @Test
+    void testIsNewPositionAllowed_SecondRobot() {
+        robot.setPosition(new Position(5,0));
+        setRobotDirection(robot,WEST);
+
+        Robot anotherBot = new Robot("AnotherBot", "sniper");
+        anotherBot.setPosition(new Position(6, 0));
+        world.addRobot(anotherBot);
+
+        Robot second = new Robot("AnotherBot", "sniper");
+        second.setPosition(new Position(4, 0));
+        world.addRobot(second);
+
+
+        Position newPosition = new Position(3, 0);
         assertFalse(world.isNewPositionAllowed(newPosition));
     }
 
